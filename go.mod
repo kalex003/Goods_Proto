@@ -1,4 +1,4 @@
-module Goods_Proto
+module github.com/kalex003/Goods_Proto
 
 go 1.22
 
