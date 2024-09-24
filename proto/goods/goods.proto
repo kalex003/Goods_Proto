@@ -68,6 +68,7 @@ message GetResponse {
   int64 wh_id = 9;
   int64 tare_id = 10;
   string tare_type = 11;
+  google.protobuf.Timestamp ch_dt = 12;
 }
 
 message DeleteRequest {
