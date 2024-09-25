@@ -19,10 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Goods_Insert_FullMethodName = "/goods.Goods/Insert"
-	Goods_Update_FullMethodName = "/goods.Goods/Update"
-	Goods_Get_FullMethodName    = "/goods.Goods/Get"
-	Goods_Delete_FullMethodName = "/goods.Goods/Delete"
+	Goods_Insert_FullMethodName      = "/goods.Goods/Insert"
+	Goods_Update_FullMethodName      = "/goods.Goods/Update"
+	Goods_GetById_FullMethodName     = "/goods.Goods/GetById"
+	Goods_GetByPlace_FullMethodName  = "/goods.Goods/GetByPlace"
+	Goods_GetByTare_FullMethodName   = "/goods.Goods/GetByTare"
+	Goods_GetHistory_FullMethodName  = "/goods.Goods/GetHistory"
+	Goods_UpdateIsDel_FullMethodName = "/goods.Goods/UpdateIsDel"
 )
 
 // GoodsClient is the client API for Goods service.
@@ -36,8 +39,11 @@ type GoodsClient interface {
 	// Login logs in a user and returns an auth token.
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 	// IsAdmin checks whether a user is an admin.
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetByPlace(ctx context.Context, in *GetByPlaceRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetByTare(ctx context.Context, in *GetByTareRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetHistory(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	UpdateIsDel(ctx context.Context, in *UpdateIsDelRequest, opts ...grpc.CallOption) (*UpdateIsDelResponse, error)
 }
 
 type goodsClient struct {
@@ -68,20 +74,50 @@ func (c *goodsClient) Update(ctx context.Context, in *UpdateRequest, opts ...grp
 	return out, nil
 }
 
-func (c *goodsClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *goodsClient) GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, Goods_Get_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Goods_GetById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *goodsClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+func (c *goodsClient) GetByPlace(ctx context.Context, in *GetByPlaceRequest, opts ...grpc.CallOption) (*GetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteResponse)
-	err := c.cc.Invoke(ctx, Goods_Delete_FullMethodName, in, out, cOpts...)
+	out := new(GetResponse)
+	err := c.cc.Invoke(ctx, Goods_GetByPlace_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goodsClient) GetByTare(ctx context.Context, in *GetByTareRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetResponse)
+	err := c.cc.Invoke(ctx, Goods_GetByTare_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goodsClient) GetHistory(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetResponse)
+	err := c.cc.Invoke(ctx, Goods_GetHistory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goodsClient) UpdateIsDel(ctx context.Context, in *UpdateIsDelRequest, opts ...grpc.CallOption) (*UpdateIsDelResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateIsDelResponse)
+	err := c.cc.Invoke(ctx, Goods_UpdateIsDel_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -99,8 +135,11 @@ type GoodsServer interface {
 	// Login logs in a user and returns an auth token.
 	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	// IsAdmin checks whether a user is an admin.
-	Get(context.Context, *GetRequest) (*GetResponse, error)
-	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	GetById(context.Context, *GetByIdRequest) (*GetResponse, error)
+	GetByPlace(context.Context, *GetByPlaceRequest) (*GetResponse, error)
+	GetByTare(context.Context, *GetByTareRequest) (*GetResponse, error)
+	GetHistory(context.Context, *GetByIdRequest) (*GetResponse, error)
+	UpdateIsDel(context.Context, *UpdateIsDelRequest) (*UpdateIsDelResponse, error)
 	mustEmbedUnimplementedGoodsServer()
 }
 
@@ -117,11 +156,20 @@ func (UnimplementedGoodsServer) Insert(context.Context, *InsertRequest) (*Insert
 func (UnimplementedGoodsServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedGoodsServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedGoodsServer) GetById(context.Context, *GetByIdRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
-func (UnimplementedGoodsServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+func (UnimplementedGoodsServer) GetByPlace(context.Context, *GetByPlaceRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetByPlace not implemented")
+}
+func (UnimplementedGoodsServer) GetByTare(context.Context, *GetByTareRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetByTare not implemented")
+}
+func (UnimplementedGoodsServer) GetHistory(context.Context, *GetByIdRequest) (*GetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHistory not implemented")
+}
+func (UnimplementedGoodsServer) UpdateIsDel(context.Context, *UpdateIsDelRequest) (*UpdateIsDelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateIsDel not implemented")
 }
 func (UnimplementedGoodsServer) mustEmbedUnimplementedGoodsServer() {}
 func (UnimplementedGoodsServer) testEmbeddedByValue()               {}
@@ -180,38 +228,92 @@ func _Goods_Update_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Goods_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+func _Goods_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GoodsServer).Get(ctx, in)
+		return srv.(GoodsServer).GetById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Goods_Get_FullMethodName,
+		FullMethod: Goods_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GoodsServer).Get(ctx, req.(*GetRequest))
+		return srv.(GoodsServer).GetById(ctx, req.(*GetByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Goods_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteRequest)
+func _Goods_GetByPlace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByPlaceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GoodsServer).Delete(ctx, in)
+		return srv.(GoodsServer).GetByPlace(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Goods_Delete_FullMethodName,
+		FullMethod: Goods_GetByPlace_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GoodsServer).Delete(ctx, req.(*DeleteRequest))
+		return srv.(GoodsServer).GetByPlace(ctx, req.(*GetByPlaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Goods_GetByTare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByTareRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoodsServer).GetByTare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Goods_GetByTare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoodsServer).GetByTare(ctx, req.(*GetByTareRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Goods_GetHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoodsServer).GetHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Goods_GetHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoodsServer).GetHistory(ctx, req.(*GetByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Goods_UpdateIsDel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateIsDelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoodsServer).UpdateIsDel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Goods_UpdateIsDel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoodsServer).UpdateIsDel(ctx, req.(*UpdateIsDelRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -232,12 +334,24 @@ var Goods_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Goods_Update_Handler,
 		},
 		{
-			MethodName: "Get",
-			Handler:    _Goods_Get_Handler,
+			MethodName: "GetById",
+			Handler:    _Goods_GetById_Handler,
 		},
 		{
-			MethodName: "Delete",
-			Handler:    _Goods_Delete_Handler,
+			MethodName: "GetByPlace",
+			Handler:    _Goods_GetByPlace_Handler,
+		},
+		{
+			MethodName: "GetByTare",
+			Handler:    _Goods_GetByTare_Handler,
+		},
+		{
+			MethodName: "GetHistory",
+			Handler:    _Goods_GetHistory_Handler,
+		},
+		{
+			MethodName: "UpdateIsDel",
+			Handler:    _Goods_UpdateIsDel_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

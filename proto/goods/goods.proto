@@ -13,11 +13,15 @@ service Goods {
   // Login logs in a user and returns an auth token.
   rpc Update (UpdateRequest) returns (UpdateResponse);
   // IsAdmin checks whether a user is an admin.
-  rpc Get (GetRequest) returns (GetResponse);
-  rpc Delete (DeleteRequest) returns (DeleteResponse);
+  rpc GetById (GetByIdRequest) returns (GetResponse);
+  rpc GetByPlace (GetByPlaceRequest) returns (GetResponse);
+  rpc GetByTare (GetByTareRequest) returns (GetResponse);
+  rpc GetHistory (GetByIdRequest) returns (GetResponse);
+  rpc UpdateIsDel (UpdateIsDelRequest) returns (UpdateIsDelResponse);
+
 }
-//place_id goes from sequence and ch_dt goes by current_timestamp
-message InsertRequest {
+//place_id goes from sequence, ch_dt goes by current_timestamp, is_del = false by default
+message OneInsertRequest {
   int64 place_id = 1;
   int64 sku_id = 2;
   int64 wbsticker_id = 3;
@@ -30,12 +34,20 @@ message InsertRequest {
   string tare_type = 10;
 }
 
-message InsertResponse {
+message OneInsertResponse {
   int64 goods_id = 1;
   google.protobuf.Timestamp ch_dt = 2;
 }
 
-message UpdateRequest {
+message InsertRequest{
+  repeated OneInsertRequest structs = 1;
+}
+
+message InsertResponse {
+  repeated OneInsertRequest structs = 1;
+}
+
+message OneUpdateRequest {
   int64 goods_id = 1;
   int64 place_id = 2;
   int64 sku_id = 3;
@@ -49,14 +61,24 @@ message UpdateRequest {
   string tare_type = 11;
 }
 
-message UpdateResponse {
+message OneUpdateResponse {
+  int64 goods_id = 1;
+  google.protobuf.Timestamp ch_dt = 2;
 }
 
-message GetRequest {
+message UpdateRequest {
+  repeated OneUpdateRequest structs = 1;
+}
+
+message UpdateResponse {
+  repeated OneUpdateResponse structs = 1;
+}
+
+message OneGetByIdRequest {
   int64 goods_id = 1;
 }
 
-message GetResponse {
+message OneGetResponse {
   int64 goods_id = 1;
   int64 place_id = 2;
   int64 sku_id = 3;
@@ -69,11 +91,48 @@ message GetResponse {
   int64 tare_id = 10;
   string tare_type = 11;
   google.protobuf.Timestamp ch_dt = 12;
+  bool is_del = 13;
 }
 
-message DeleteRequest {
+message GetByIdRequest {
+  repeated OneGetByIdRequest structs = 1;
+}
+
+message GetResponse {
+  repeated OneGetResponse structs = 1;
+}
+
+message OneGetByPlaceRequest {
+  int64 place_id = 1;
+}
+
+message GetByPlaceRequest {
+  repeated OneGetByPlaceRequest structs = 1;
+}
+
+message OneGetByTareRequest {
+  int64 tare_id = 1;
+}
+
+message GetByTareRequest {
+  repeated OneGetByTareRequest structs = 1;
+}
+
+message OneUpdateIsDelRequest {
   int64 goods_id = 1;
+  bool is_del = 2;
 }
 
-message DeleteResponse {
+message OneUpdateIsDelResponse {
+  int64 goods_id = 1;
+  google.protobuf.Timestamp ch_dt = 2;
+  bool is_del = 3;
+}
+
+message UpdateIsDelRequest {
+  repeated UpdateIsDelRequest structs = 1;
+}
+
+message UpdateIsDelResponse {
+  repeated OneUpdateIsDelResponse structs = 1;
 }
