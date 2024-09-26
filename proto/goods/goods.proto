@@ -23,15 +23,15 @@ service Goods {
 //place_id goes from sequence, ch_dt goes by current_timestamp, is_del = false by default
 message OneInsertRequest {
   int64 place_id = 1;
-  int64 sku_id = 2;
-  int64 wbsticker_id = 3;
-  string barcode = 4;
-  string state_id = 5;
+  optional int64 sku_id = 2;
+  optional int64 wbsticker_id = 3;
+  optional string barcode = 4;
+  optional string state_id = 5;
   int64 ch_employee_id = 6;
-  int64 office_id = 7;
-  int64 wh_id = 8;
-  int64 tare_id = 9;
-  string tare_type = 10;
+  optional int64 office_id = 7;
+  optional int64 wh_id = 8;
+  optional int64 tare_id = 9;
+  optional string tare_type = 10;
 }
 
 message OneInsertResponse {
@@ -50,15 +50,15 @@ message InsertResponse {
 message OneUpdateRequest {
   int64 goods_id = 1;
   int64 place_id = 2;
-  int64 sku_id = 3;
-  int64 wbsticker_id = 4;
-  string barcode = 5;
-  string state_id = 6;
+  optional int64 sku_id = 3;
+  optional int64 wbsticker_id = 4;
+  optional string barcode = 5;
+  optional string state_id = 6;
   int64 ch_employee_id = 7;
-  int64 office_id = 8;
-  int64 wh_id = 9;
-  int64 tare_id = 10;
-  string tare_type = 11;
+  optional int64 office_id = 8;
+  optional int64 wh_id = 9;
+  optional int64 tare_id = 10;
+  optional string tare_type = 11;
 }
 
 message OneUpdateResponse {
@@ -80,16 +80,16 @@ message OneGetByIdRequest {
 
 message OneGetResponse {
   int64 goods_id = 1;
-  int64 place_id = 2;
-  int64 sku_id = 3;
-  int64 wbsticker_id = 4;
-  string barcode = 5;
-  string state_id = 6;
+  optional int64 place_id = 2;
+  optional int64 sku_id = 3;
+  optional int64 wbsticker_id = 4;
+  optional string barcode = 5;
+  optional string state_id = 6;
   int64 ch_employee_id = 7;
-  int64 office_id = 8;
-  int64 wh_id = 9;
-  int64 tare_id = 10;
-  string tare_type = 11;
+  optional int64 office_id = 8;
+  optional int64 wh_id = 9;
+  optional int64 tare_id = 10;
+  optional string tare_type = 11;
   google.protobuf.Timestamp ch_dt = 12;
   bool is_del = 13;
 }
