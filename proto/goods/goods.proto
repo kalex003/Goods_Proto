@@ -80,7 +80,7 @@ message OneGetByIdRequest {
 
 message OneGetResponse {
   int64 goods_id = 1;
-  optional int64 place_id = 2;
+  int64 place_id = 2;
   optional int64 sku_id = 3;
   optional int64 wbsticker_id = 4;
   optional string barcode = 5;
