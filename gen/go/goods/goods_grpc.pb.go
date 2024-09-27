@@ -39,7 +39,7 @@ type GoodsClient interface {
 	// Login logs in a user and returns an auth token.
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 	// IsAdmin checks whether a user is an admin.
-	GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*OneGetResponse, error)
 	GetByPlace(ctx context.Context, in *GetByPlaceRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	GetByTare(ctx context.Context, in *GetByTareRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	GetHistory(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error)
@@ -74,9 +74,9 @@ func (c *goodsClient) Update(ctx context.Context, in *UpdateRequest, opts ...grp
 	return out, nil
 }
 
-func (c *goodsClient) GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *goodsClient) GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*OneGetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetResponse)
+	out := new(OneGetResponse)
 	err := c.cc.Invoke(ctx, Goods_GetById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ type GoodsServer interface {
 	// Login logs in a user and returns an auth token.
 	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	// IsAdmin checks whether a user is an admin.
-	GetById(context.Context, *GetByIdRequest) (*GetResponse, error)
+	GetById(context.Context, *GetByIdRequest) (*OneGetResponse, error)
 	GetByPlace(context.Context, *GetByPlaceRequest) (*GetResponse, error)
 	GetByTare(context.Context, *GetByTareRequest) (*GetResponse, error)
 	GetHistory(context.Context, *GetByIdRequest) (*GetResponse, error)
@@ -156,7 +156,7 @@ func (UnimplementedGoodsServer) Insert(context.Context, *InsertRequest) (*Insert
 func (UnimplementedGoodsServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedGoodsServer) GetById(context.Context, *GetByIdRequest) (*GetResponse, error) {
+func (UnimplementedGoodsServer) GetById(context.Context, *GetByIdRequest) (*OneGetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedGoodsServer) GetByPlace(context.Context, *GetByPlaceRequest) (*GetResponse, error) {

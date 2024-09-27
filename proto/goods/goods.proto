@@ -13,7 +13,7 @@ service Goods {
   // Login logs in a user and returns an auth token.
   rpc Update (UpdateRequest) returns (UpdateResponse);
   // IsAdmin checks whether a user is an admin.
-  rpc GetById (GetByIdRequest) returns (GetResponse);
+  rpc GetById (GetByIdRequest) returns (OneGetResponse);
   rpc GetByPlace (GetByPlaceRequest) returns (GetResponse);
   rpc GetByTare (GetByTareRequest) returns (GetResponse);
   rpc GetHistory (GetByIdRequest) returns (GetResponse);
