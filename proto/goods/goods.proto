@@ -44,7 +44,7 @@ message InsertRequest{
 }
 
 message InsertResponse {
-  repeated OneInsertRequest structs = 1;
+  repeated OneInsertResponse structs = 1;
 }
 
 message OneUpdateRequest {
