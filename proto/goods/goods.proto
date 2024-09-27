@@ -130,7 +130,7 @@ message OneUpdateIsDelResponse {
 }
 
 message UpdateIsDelRequest {
-  repeated UpdateIsDelRequest structs = 1;
+  repeated OneUpdateIsDelRequest structs = 1;
 }
 
 message UpdateIsDelResponse {
