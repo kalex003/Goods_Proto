@@ -102,20 +102,12 @@ message GetResponse {
   repeated OneGetResponse structs = 1;
 }
 
-message OneGetByPlaceRequest {
+message GetByPlaceRequest {
   int64 place_id = 1;
 }
 
-message GetByPlaceRequest {
-  repeated OneGetByPlaceRequest structs = 1;
-}
-
-message OneGetByTareRequest {
-  int64 tare_id = 1;
-}
-
 message GetByTareRequest {
-  repeated OneGetByTareRequest structs = 1;
+  int64 tare_id = 1;
 }
 
 message OneUpdateIsDelRequest {
