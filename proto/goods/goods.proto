@@ -16,7 +16,7 @@ service Goods {
   rpc GetById (GetByIdRequest) returns (GetResponse);
   rpc GetByPlace (GetByPlaceRequest) returns (GetResponse);
   rpc GetByTare (GetByTareRequest) returns (GetResponse);
-  rpc GetHistory (GetByIdRequest) returns (GetResponse);
+  rpc GetHistory (OneGetByIdRequest) returns (GetResponse);
   rpc UpdateIsDel (UpdateIsDelRequest) returns (UpdateIsDelResponse);
 
 }

@@ -42,7 +42,7 @@ type GoodsClient interface {
 	GetById(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	GetByPlace(ctx context.Context, in *GetByPlaceRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	GetByTare(ctx context.Context, in *GetByTareRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	GetHistory(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	GetHistory(ctx context.Context, in *OneGetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	UpdateIsDel(ctx context.Context, in *UpdateIsDelRequest, opts ...grpc.CallOption) (*UpdateIsDelResponse, error)
 }
 
@@ -104,7 +104,7 @@ func (c *goodsClient) GetByTare(ctx context.Context, in *GetByTareRequest, opts 
 	return out, nil
 }
 
-func (c *goodsClient) GetHistory(ctx context.Context, in *GetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *goodsClient) GetHistory(ctx context.Context, in *OneGetByIdRequest, opts ...grpc.CallOption) (*GetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetResponse)
 	err := c.cc.Invoke(ctx, Goods_GetHistory_FullMethodName, in, out, cOpts...)
@@ -138,7 +138,7 @@ type GoodsServer interface {
 	GetById(context.Context, *GetByIdRequest) (*GetResponse, error)
 	GetByPlace(context.Context, *GetByPlaceRequest) (*GetResponse, error)
 	GetByTare(context.Context, *GetByTareRequest) (*GetResponse, error)
-	GetHistory(context.Context, *GetByIdRequest) (*GetResponse, error)
+	GetHistory(context.Context, *OneGetByIdRequest) (*GetResponse, error)
 	UpdateIsDel(context.Context, *UpdateIsDelRequest) (*UpdateIsDelResponse, error)
 	mustEmbedUnimplementedGoodsServer()
 }
@@ -165,7 +165,7 @@ func (UnimplementedGoodsServer) GetByPlace(context.Context, *GetByPlaceRequest) 
 func (UnimplementedGoodsServer) GetByTare(context.Context, *GetByTareRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByTare not implemented")
 }
-func (UnimplementedGoodsServer) GetHistory(context.Context, *GetByIdRequest) (*GetResponse, error) {
+func (UnimplementedGoodsServer) GetHistory(context.Context, *OneGetByIdRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHistory not implemented")
 }
 func (UnimplementedGoodsServer) UpdateIsDel(context.Context, *UpdateIsDelRequest) (*UpdateIsDelResponse, error) {
@@ -283,7 +283,7 @@ func _Goods_GetByTare_Handler(srv interface{}, ctx context.Context, dec func(int
 }
 
 func _Goods_GetHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetByIdRequest)
+	in := new(OneGetByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -295,7 +295,7 @@ func _Goods_GetHistory_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: Goods_GetHistory_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GoodsServer).GetHistory(ctx, req.(*GetByIdRequest))
+		return srv.(GoodsServer).GetHistory(ctx, req.(*OneGetByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
