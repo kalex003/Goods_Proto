@@ -75,7 +75,7 @@ message UpdateResponse {
 }
 
 message OneGetByIdRequest {
-  optional int64 goods_id = 1;
+  int64 goods_id = 1;
 }
 
 message OneGetResponse {
@@ -95,7 +95,7 @@ message OneGetResponse {
 }
 
 message GetByIdRequest {
-  repeated OneGetByIdRequest structs = 1;
+  optional OneGetByIdRequest structs = 1;
 }
 
 message GetResponse {
