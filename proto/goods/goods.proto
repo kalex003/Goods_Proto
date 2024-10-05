@@ -75,7 +75,7 @@ message UpdateResponse {
 }
 
 message OneGetByIdRequest {
-  int64 goods_id = 1;
+  optional int64 goods_id = 1;
 }
 
 message OneGetResponse {
